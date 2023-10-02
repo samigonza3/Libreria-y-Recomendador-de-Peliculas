@@ -1,0 +1,59 @@
+version: "2.3"
+services:
+  db:
+    image: postgres:12
+    mem_limit: 1536MB
+    mem_reservation: 1G
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+    - "5432:5432"
+    networks:
+    - samigonza3_network
+    volumes:
+    - db-data:/var/lib/postgresql/data
+    container_name: database
+  pgadmin4:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: samigonza3@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+    - "8889:80"
+    networks:
+    - samigonza3_network
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    depends_on:
+      - db
+    expose:
+      - 9030
+    ports:
+      -  "9030:9030"
+    networks:
+      - samigonza3_network
+    links:
+      - db
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    depends_on:
+      - db
+      - backend
+    expose:
+      - 80
+    ports:
+      - "80:3000"
+    networks:
+      - samigonza3_network
+networks:
+  samigonza3_network:
+    driver: bridge 
+volumes:
+  db-data:
