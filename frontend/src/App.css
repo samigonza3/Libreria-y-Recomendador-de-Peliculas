@@ -139,9 +139,24 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.cards{
+  transform: scale(0.9);
+}
+
+.cards p {
+  font-size: 18px;
+}
+
+.cards h2 {
+  font-size: 25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .card{
   padding: 20px;
-  margin-right: 0px;
+  margin-right: 0px;;
 }
 
 .formulario{
@@ -159,6 +174,10 @@
 
 .cards-container{
   margin-bottom: 40px;
+  justify-content: space-between;
+  display: flex; /* Utilizamos flexbox para alinear las tarjetas horizontalmente */
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en filas si no caben en una sola línea */
+
 }
 
 
@@ -180,4 +199,8 @@
   justify-content: center;
   align-items: center;
 
+}
+
+.card-body{
+  
 }

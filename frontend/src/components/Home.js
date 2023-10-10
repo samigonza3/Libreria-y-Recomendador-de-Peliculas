@@ -22,7 +22,7 @@ class Home extends Component {
   
   render() {
     const { topRatedMovies } = this.state;
-    const topThreeMovies = topRatedMovies.slice(0, 3);
+    const topThreeMovies = topRatedMovies.slice(0, 4);
 
 
     return (
@@ -56,29 +56,37 @@ class Home extends Component {
   </div>
 </div>
       
-      
-<div className="cards-container container" style={{ marginTop: '3em' }}>
-      <h3 className='subtitulos-h3'>Mis películas mejor valoradas</h3>
+<div className="cards-container container" style={{ marginTop: '2em' }}>
+  <h3 className='subtitulos-h3'>Mis películas mejor valoradas</h3>
 
-      <div className="row">
-          {topThreeMovies.map((movie, index) => (
-            <div className="col-12 col-md-4" key={index}>
-              <div className="card">
-                <img
-                  src={movie.link_thumb}
-                  className="card-img-top"
-                  alt={`Portada de ${movie.title}`}
-                />
-                <div className="card-body">
-                  <h2 className="card-title">{movie.titulo}</h2>
-                  <p>Año: {movie.year}</p>
-                  <p>Puntuación: {movie.rating}</p>
-                </div>
-              </div>
+  <div className="row cards">
+    {topThreeMovies.map((movie, index) => (
+      <div className="col-12 col-md-3" key={index}>
+        <div className="card">
+          {movie.link_thumb ? (
+            <img
+              src={movie.link_thumb}
+              className="card-img-top"
+              alt={`Portada de ${movie.title}`}
+            />
+          ) : (
+            <div className="no-image-placeholder">
+              No hay imagen disponible
             </div>
-          ))}
+          )}
+          <div className="card-body">
+            <h2 className="card-title">{movie.titulo}</h2>
+            <p><b>Año:</b> {movie.year}</p>
+            <p><b>Puntuación:</b> {movie.rating}</p>
+          </div>
         </div>
-      </div>      </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+     </div>
 
     );
   }
