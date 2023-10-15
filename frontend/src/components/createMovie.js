@@ -51,6 +51,8 @@ function CreateMovie() {
           year: '',
           sinopsis: '',
           rating: '',
+          link_imdb: '', // Nuevo campo link_imdb
+          link_thumb: '', // Nuevo campo link_thumb
         });
       } else {
         setMensaje('');

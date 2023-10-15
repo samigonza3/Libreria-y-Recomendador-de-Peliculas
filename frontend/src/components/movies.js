@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Carousel, Card, Row, Col } from 'react-bootstrap'; // Añadí Row y Col
+
 
 class Movies extends Component {
   constructor() {
@@ -15,13 +16,52 @@ class Movies extends Component {
         year: '',
         sinopsis: '',
         rating: '',
+        link_imdb: '',
+        link_thumb: '',
       },
       editingMovie: null, // Almacena la película que se está editando
       isEditing: false, // Controla la visibilidad del formulario de edición
       isModalOpen: false,
+      isInfoModalOpen: false, // Nuevo estado para el modal de información
+      selectedMovie: null, // Almacena la película seleccionada
+      activeIndex: 0, // Agrega el estado para controlar el índice activo del carrusel
+
     };
   }
 
+  handleOpenModal = (movie) => {
+    if (!this.state.isInfoModalOpen) { // Verifica si el infomodal está cerrado
+      this.setState({
+        editingMovie: movie,
+        isModalOpen: true,
+      });
+    }
+  };
+  // Método para cerrar el modal
+  handleCloseModal = () => {
+    this.setState({
+      editingMovie: null,
+      isModalOpen: false,
+    });
+  };
+  
+  handleOpenInfoModal = (movie) => {
+    if (!this.state.isEditing) {
+      this.setState({
+        selectedMovie: movie,
+        isInfoModalOpen: true,
+      });
+    }
+  };
+
+  // Método para cerrar el modal de información
+  handleCloseInfoModal = () => {
+    this.setState({
+      selectedMovie: null,
+      isInfoModalOpen: false,
+    });
+  };
+  
   // Método para mostrar un mensaje de confirmación antes de eliminar una película
   handleConfirmDelete = (id_movie) => {
     const confirmDelete = window.confirm(
@@ -62,20 +102,7 @@ class Movies extends Component {
     }
   };
 
-  handleOpenModal = (movie) => {
-    this.setState({
-      editingMovie: movie,
-      isModalOpen: true,
-    });
-  };
 
-  // Método para cerrar el modal
-  handleCloseModal = () => {
-    this.setState({
-      editingMovie: null,
-      isModalOpen: false,
-    });
-  };
 
   // Método para guardar la película editada
   handleSaveMovie = async () => {
@@ -111,11 +138,13 @@ class Movies extends Component {
 
 
   render() {
-    const { movies, editingMovie, isEditing, isModalOpen } = this.state;
+    const { movies, editingMovie, isModalOpen, isInfoModalOpen, selectedMovie, activeIndex } = this.state;
 
     return (
-      <div className='movies-container'>
-        <h1 className='mb-4'>Películas</h1>
+      <div className='movies-container container-fluid'>
+        <div className="row">
+          <div className="col-8">
+            <h1 className='mb-4'>Películas</h1>
         <table className='table table-dark table-responsive table-striped table-hover'>
            {/* Encabezados de la tabla */}
           <thead className='thead-dark'>
@@ -130,7 +159,11 @@ class Movies extends Component {
           </thead>
           <tbody>
             {movies.map((movie) => (
-              <tr key={movie.id_movie}>
+              <tr
+              key={movie.id_movie}
+              onClick={() => this.handleOpenInfoModal(movie)} // Abre el modal de información al hacer clic en la fila
+              style={{ cursor: 'pointer' }} // Cambia el cursor al estilo "mano" para indicar que es clickeable
+            >
                 {/* Celdas de la tabla */}
                 <td>{movie.titulo}</td>
                 <td>{movie.year}</td>
@@ -279,8 +312,63 @@ class Movies extends Component {
   </Modal.Footer>
 </Modal>
 
-        </table>
+        </table>              </div>         
+        <div className="col-4">
+            <Carousel
+              className="bs-carousel"
+              fade={true}
+              loop={true}
+              activeIndex={activeIndex}
+              onSelect={(selectedIndex, e) => this.setState({ activeIndex: selectedIndex })}
+            >
+              {movies.map((movie) => (
+                <Carousel.Item key={movie.id_movie}>
+                  <Card style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src={movie.link_thumb} />
+                    <Card.Body>
+                      <Card.Title>{movie.titulo}</Card.Title>
+                      <Card.Text>
+                        Año: {movie.year}
+                        <br />
+                        Puntuación: {movie.rating}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>     </div>
+
+
+
+        <Modal show={isInfoModalOpen} onHide={this.handleCloseInfoModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Información de la Película</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedMovie && (
+              <div>
+                <h3>{selectedMovie.titulo}</h3>
+                <p>Año: {selectedMovie.year}</p>
+                <p>Director: {selectedMovie.director}</p>
+                <p>Género: {selectedMovie.genero}</p>
+                <p>Puntuación: {selectedMovie.rating}</p>
+                <p>Sinopsis: {selectedMovie.sinopsis}</p>
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='secondary' onClick={this.handleCloseInfoModal}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
       </div>
+
+
+
+
     );
   }
 }

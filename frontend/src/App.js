@@ -3,12 +3,8 @@ import {
   BrowserRouter as Router, 
   Routes, 
   Route, 
-  Link,
 } from 'react-router-dom';
 
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import CreateMovie from './components/createMovie';
 import Home from './components/Home';
 import Movies from './components/movies';
@@ -20,72 +16,73 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 function App() {
   return (
-    <div className="navbar-container">
+    <div className="container">
       <Router>
-        <Navbar expand="lg" className="navbar navbar-expand-lg navbar-light bg-light navbar-container">
-          <Container>
-            <Navbar.Brand as={Link} to="/" className="nav-link brand-text">Muvi Library</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/" className="nav-link">Home</Nav.Link>
-                <Nav.Link as={Link} to="/movies" className="nav-link">Películas</Nav.Link>
-                <Nav.Link as={Link} to="/create-movie" className="nav-link">Añadir Película</Nav.Link>
-                <Nav.Link as={Link} to="/dashboard" className="nav-link">Dashboard</Nav.Link>
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a href="/" class="navbar-brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                        <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+                    </svg>
+                </a>
 
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/movies" class="nav-link">Mis Películas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link">Info</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-outline-light me-2">
+                        <a class="text-decoration-none" href="/movies">Ver Todas</a>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearPeliculaModal">
+                        <a class="text-decoration-none">Nueva Película</a>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div className="modal fade" id="crearPeliculaModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog" role="document">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">Agregar Película</h5>
+        <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div className="modal-body">
+        <CreateMovie />
+      </div>
+    </div>
+  </div>
+</div>
+
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/create-movie" element={<CreateMovie />} />
           <Route path="/dashboard" element={<Dashboard />} />
-
         </Routes>
       </Router>
 
-    
-      <section id="carrusel" class="block">
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="https://i.ibb.co/T4nXTMn/carrusel-1.jpg" class="d-block w-100" alt="..."/>
-          
-        </div>
-         <div class="carousel-item">
-          <img src="https://i.ibb.co/T4nXTMn/carrusel-1.jpg" class="d-block w-100" alt="..."/>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p>
-          </div>
-        </div>
-        {/*<div class="carousel-item">
-          <img src="https://i.ibb.co/T4nXTMn/carrusel-1.jpg" class="d-block w-100" alt="..."/>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
-          </div>
-        </div> */}
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-      </section>
-
          
+
 
       <div id="logo" className="container text-center mt-4 logo-container">
                 <img src={logo} className="App-logo" alt="logo" />
