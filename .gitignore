@@ -1,2 +1,1 @@
-backend/.gitignore
-backend/src/config/database.js
+/.vscode
