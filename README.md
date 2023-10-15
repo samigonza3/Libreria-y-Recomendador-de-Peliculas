@@ -1,4 +1,4 @@
-# Librería y Recomendador de películas
+# Librería y Recomendador de películas // Movie Library and Recommender
 ## Recursos utilizados:
 - NodeJs
 - React
