@@ -1,0 +1,23 @@
+name: Despliegue Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v2
+
+    - name: Configura Docker
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Inicia Docker Compose
+      run: |
+        docker-compose up -d
